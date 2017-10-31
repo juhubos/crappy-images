@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">  
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">          
+        <title>Save Your Crappy Image</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+                <a class="navbar-brand" href="#">Krappy</a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarContent"></button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">Create</a>
+                        </li>          
+                    </ul>
+
+                </div>
+            </nav>
+            
+                <div class="row justify-content-center align-item-center">
+                        <canvas id="draw" width="400" height="400"></canvas>
+                </div>
+          
+            </div>
+        </div>
+
+        <script>
+            
+            const canvas = document.querySelector("#draw");
+            const ctx = canvas.getContext('2d'); 
+
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            let mouseDown = false;
+
+            function draw(e) {
+                if(!mouseDown) return; //stops drawing on mouseup
+                ctx.strokeStyle = "black";
+                ctx.beginPath();
+                ctx.moveTo(mouseX, mouseY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+                //continually updates the line's starting point, so it doesnt originate from same point 
+                [mouseX, mouseY] = [e.offsetX, e.offsetY];
+            }
+
+
+        
+            //mousedown fires before mousemove
+            canvas.addEventListener("mousedown",(e) => {
+                mouseDown = true;
+                //set starting location mouse
+                mouseX = e.offsetX;
+                mouseY = e.offsetY;
+            });
+            canvas.addEventListener("mousemove", draw);
+            //stop drawing when mouse is 'released'
+            canvas.addEventListener("mouseup", () => mouseDown = false );
+            //stop drawing when mouse moves outside of the canvas
+            cavas.addEventListener("mouseout", () => mousedown = false);
+            
+            
+        </script>
+        
+    </body>
+    
+</html>
+
+
